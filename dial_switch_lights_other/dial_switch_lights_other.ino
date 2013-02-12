@@ -4,9 +4,8 @@ const int sensorPin = 0; //analog input for potentiometer
 
 void setup(){ 
   Serial.begin (9600); 
-  pinMode(ledPinYellow, OUTPUT); 
-  pinMode(ledPinRed, OUTPUT); 
-  pinMode(sensorPin, INPUT); 
+  pinMode(ledPinYellow, OUTPUT); //initiate yellow LED as output 
+  pinMode(ledPinRed, OUTPUT); //initiate red LED as output
 } 
 
 void loop(){ 
@@ -14,19 +13,20 @@ void loop(){
   int percent; 
   val = analogRead(sensorPin); 
   
-  percent = map(val,0,1023,0,100); 
-  //digitalWrite(ledPin, HIGH); 
-  delay(percent); 
-  //digitalWrite(ledPin, LOW); 
+  percent = map(val,0,1023,0,100); //map values from 0 to 100
+  delay(percent);
   delay(100 - percent); 
   
-  if (percent <= 25){ 
-    analogWrite(ledPinYellow, HIGH);
-    //delay(percent);  
-  }else if (percent <= 75){  
+  if (percent >= 25 && percent < 50){ 
+    //statement to turn on ONLY yellow light
+    digitalWrite(ledPinYellow, HIGH); 
+    digitalWrite(ledPinRed, LOW);
+  }else if (percent >= 50){  
+    //statement to turn on red light 
+    digitalWrite(ledPinYellow, HIGH);
     digitalWrite(ledPinRed, HIGH);
-   // delay(100-percent); 
   }else{
+    //otherwise, both lights should be off
     analogWrite(ledPinYellow, LOW); 
     digitalWrite(ledPinRed, LOW);
     
